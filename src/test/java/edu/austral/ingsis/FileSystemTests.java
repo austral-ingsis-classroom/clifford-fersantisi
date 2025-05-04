@@ -3,13 +3,14 @@ package edu.austral.ingsis;
 import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.austral.ingsis.clifford.runner.FileSystemRunner;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 public class FileSystemTests {
 
-  private final FileSystemRunner runner = commands -> List.of();
+  private final FileSystemRunner runner = new FileSystemRunner();
 
   private void executeTest(List<Map.Entry<String, String>> commandsAndResults) {
     final List<String> commands = commandsAndResults.stream().map(Map.Entry::getKey).toList();
@@ -17,6 +18,10 @@ public class FileSystemTests {
         commandsAndResults.stream().map(Map.Entry::getValue).toList();
 
     final List<String> actualResult = runner.executeCommands(commands);
+
+    for (String res : actualResult) {
+      System.out.println(res);
+    }
 
     assertEquals(expectedResult, actualResult);
   }
@@ -58,7 +63,7 @@ public class FileSystemTests {
             entry("cd emily", "moved to directory 'emily'"),
             entry("touch elizabeth.txt", "'elizabeth.txt' file created"),
             entry("mkdir t-bone", "'t-bone' directory created"),
-            entry("ls", "t-bone elizabeth.txt"),
+            entry("ls", "elizabeth.txt t-bone"),
             entry("rm t-bone", "cannot remove 't-bone', is a directory"),
             entry("rm --recursive t-bone", "'t-bone' removed"),
             entry("ls", "elizabeth.txt"),
