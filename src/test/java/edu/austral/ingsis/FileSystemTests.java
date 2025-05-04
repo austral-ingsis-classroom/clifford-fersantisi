@@ -4,10 +4,8 @@ import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.austral.ingsis.clifford.runner.FileSystemRunner;
-
 import java.util.List;
 import java.util.Map;
-
 import org.junit.jupiter.api.Test;
 
 public class FileSystemTests {
@@ -141,7 +139,9 @@ public class FileSystemTests {
             entry("touch emily.txt", "Error: File already exists."),
             entry("ls --ord=reverse", "Error: --ord must be asc or desc."),
             entry("cd ", "Error: cd expects exactly one argument."),
-            entry("mkdir hola/mundo ", "Error: Invalid directory name. It must not contain '/' or spaces."),
+            entry(
+                "mkdir hola/mundo ",
+                "Error: Invalid directory name. It must not contain '/' or spaces."),
             entry("cd .", "moved to directory '/'")));
   }
 }
