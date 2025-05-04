@@ -4,8 +4,10 @@ import static java.util.Map.entry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.austral.ingsis.clifford.runner.FileSystemRunner;
+
 import java.util.List;
 import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 
 public class FileSystemTests {
@@ -79,6 +81,7 @@ public class FileSystemTests {
             entry("mkdir emily", "'emily' directory created"),
             entry("cd horace", "moved to directory 'horace'"),
             entry("mkdir jetta", "'jetta' directory created"),
+            entry("cd jason", "'jason' directory does not exist"),
             entry("cd ..", "moved to directory '/'"),
             entry("cd horace/jetta", "moved to directory 'jetta'"),
             entry("pwd", "/horace/jetta"),
@@ -124,5 +127,21 @@ public class FileSystemTests {
             entry("rm --recursive emily", "'emily' removed"),
             entry("ls", "emily.txt jetta.txt"),
             entry("ls --ord=desc", "jetta.txt emily.txt")));
+  }
+
+  @Test
+  void test9() {
+    executeTest(
+        List.of(
+            entry("makedirectory emily", "Error: unknown command 'makedirectory'."),
+            entry("mkdir emily", "'emily' directory created"),
+            entry("mkdir emily", "Error: Directory already exists."),
+            entry("touch emily/", "Error: Invalid file name. It must not contain '/' or spaces."),
+            entry("touch emily.txt", "'emily.txt' file created"),
+            entry("touch emily.txt", "Error: File already exists."),
+            entry("ls --ord=reverse", "Error: --ord must be asc or desc."),
+            entry("cd ", "Error: cd expects exactly one argument."),
+            entry("mkdir hola/mundo ", "Error: Invalid directory name. It must not contain '/' or spaces."),
+            entry("cd .", "moved to directory '/'")));
   }
 }

@@ -51,8 +51,6 @@ public final class FileSystem {
   }
 
   public FsResult cd(String cdPath) {
-    if (cdPath == null || cdPath.isBlank())
-      return FsResult.error("Error: cd expects a directory path.");
     DirectoryNode target = resolveTarget(cdPath);
     if (target == null) return FsResult.error("'" + cdPath + "' directory does not exist");
     return FsResult.ok(
